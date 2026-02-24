@@ -69,7 +69,7 @@ Hệ thống Manager tiếp nhận mượt mà hàng ngàn sự kiện, kích ho
 ### 2.2. Kiểm thử và Kết quả
 Sử dụng script vòng lặp `for` trên PowerShell của Windows để nã hàng chục nỗ lực đăng nhập sai vào cổng 22.
 
-![Mô phỏng SSH Brute-force bằng PowerShell](_assets/image_42b035.png)
+![Mô phỏng SSH Brute-force bằng PowerShell](_assets/Pasted%20image%2020260224183433.png)
 
 Hệ thống ghi nhận và ánh xạ hoàn hảo vào Rule `5710` (Attempt to login using a non-existent user).
 ![Biểu đồ 72 hits từ Dashboard](_assets/Pasted%20image%2020260224131614.png)
