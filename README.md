@@ -16,18 +16,18 @@
 Sử dụng công cụ `sngrep` để bắt các luồng tin SIP REGISTER rác ở lớp mạng, đồng thời trích xuất Raw Log từ FreeSWITCH khi bị tấn công bằng Nmap.
 
 ![Mô phỏng tấn công bằng Nmap](_assets/Pasted%20image%2020260224161103.png)
-![Phân tích gói tin ngập lụt bằng sngrep](_assets/Pasted%20image%2020260224171440.jpg)
-![Raw Log của FreeSWITCH văng lỗi Auth Failure](_assets/Pasted%20image%2020260224161147.jpg)
+![Phân tích gói tin ngập lụt bằng sngrep](_assets/Pasted%20image%2020260224171440.png)
+![Raw Log của FreeSWITCH văng lỗi Auth Failure](_assets/Pasted%20image%2020260224161147.png)
 
 ### 1.2. Phẫu thuật Dữ liệu: Custom Decoder với PCRE2
 **Sự cố (Troubleshooting):** Log của FreeSWITCH chứa các ký tự đặc biệt `[]` gây lỗi vỡ cấu trúc `XML Regex` mặc định của Wazuh (`wazuh-analysisd: ERROR 1452: Syntax error on regex`).
 
-![Lỗi Syntax XML khi khởi động Wazuh Manager](_assets/Pasted%20image%2020260224161835.jpg)
+![Lỗi Syntax XML khi khởi động Wazuh Manager](_assets/Pasted%20image%2020260224161835.png)
 
 **Giải pháp:** Chuyển đổi Engine phân tích sang chuẩn `PCRE2` và sử dụng kỹ thuật Escaping `\` để bóc tách chính xác mục tiêu (`srcuser`) và nguồn tấn công (`srcip`).
 
 ![Cấu hình Custom Decoder với PCRE2](_assets/Pasted%20image%2020260224170704.png)
-![Kiểm thử bóc tách dữ liệu mượt mà bằng công cụ wazuh-logtest](_assets/Pasted%20image%2020260224170825.jpg)
+![Kiểm thử bóc tách dữ liệu mượt mà bằng công cụ wazuh-logtest](_assets/Pasted%20image%2020260224170825.png)
 
 ### 1.3. Khai báo Luật (Custom Rules) & MITRE ATT&CK
 Viết tập luật cảnh báo (Level 5 & Level 10) dựa trên tần suất (Frequency Thresholds) để chống báo động giả, nội suy biến số để hiển thị trực quan và ánh xạ thẳng vào chuẩn MITRE ATT&CK.
@@ -37,7 +37,7 @@ Viết tập luật cảnh báo (Level 5 & Level 10) dựa trên tần suất (F
 ### 1.4. Xử lý sự cố "Ngập lụt Buffer" (Rate Limiting)
 Khi Nmap nã >50.000 requests, hàng đợi (Event Queue) của Wazuh Agent bị quá tải, tự động drop log để bảo vệ OS, dẫn đến hiện tượng "Cảnh báo câm".
 
-![Cảnh báo Rule 203: Agent event queue is full](_assets/Pasted%20image%2020260224164019.jpg)
+![Cảnh báo Rule 203: Agent event queue is full](_assets/Pasted%20image%2020260224164019.png)
 
 **Hành động khắc phục:** 1. Tối ưu hóa Buffer trên Agent bằng cách nới lỏng giới hạn trong file `local_internal_options.conf`.
 ![Nới lỏng giới hạn Buffer của Agent](_assets/Pasted%20image%2020260224164210.png)
@@ -47,8 +47,8 @@ Khi Nmap nã >50.000 requests, hàng đợi (Event Queue) của Wazuh Agent bị
 ### 1.5. Kết quả Phase 1
 Hệ thống Manager tiếp nhận mượt mà hàng ngàn sự kiện, kích hoạt thành công Cảnh báo Đỏ (Rule 100002) ứng với mã **MITRE T1110.001**, đồng thời gắp chính xác thông tin User bị tấn công.
 
-![Biểu đồ nhận diện >2800 lượt dò quét SIP](_assets/Pasted%20image%2020260224171352.jpg)
-![Chi tiết Rule 100001 và 100002 nảy liên tục với dữ liệu User/IP đầy đủ](_assets/Pasted%20image%2020260224171421.jpg)
+![Biểu đồ nhận diện >2800 lượt dò quét SIP](_assets/Pasted%20image%2020260224171352.png)
+![Chi tiết Rule 100001 và 100002 nảy liên tục với dữ liệu User/IP đầy đủ](_assets/Pasted%20image%2020260224171421.png)
 
 
 ## Phase 2: Giám sát OS & SSH Brute-force
@@ -62,11 +62,11 @@ Hệ thống Manager tiếp nhận mượt mà hàng ngàn sự kiện, kích ho
 ### 2.2. Kiểm thử và Kết quả
 Sử dụng script vòng lặp `for` trên PowerShell của Windows để nã hàng chục nỗ lực đăng nhập sai vào cổng 22.
 
-![Mô phỏng SSH Brute-force bằng PowerShell](_assets/image_42b035.jpg)
+![Mô phỏng SSH Brute-force bằng PowerShell](_assets/image_42b035.png)
 
 Hệ thống ghi nhận và ánh xạ hoàn hảo vào Rule `5710` (Attempt to login using a non-existent user).
-![Biểu đồ 72 hits từ Dashboard](_assets/image_433ddd.jpg)
-![Chi tiết ánh xạ MITRE T1021.004 cho SSH](_assets/image_433b13.jpg)
+![Biểu đồ 72 hits từ Dashboard](_assets/image_433ddd.png)
+![Chi tiết ánh xạ MITRE T1021.004 cho SSH](_assets/image_433b13.png)
 
 ---
 
