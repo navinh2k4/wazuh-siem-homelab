@@ -145,7 +145,6 @@ Hệ thống SIEM đã thu thập, phân tích và bắn cảnh báo thành côn
 ![](_assets/Pasted%20image%2020260224131646.png)
 
 # Demo 
-
 ![](_assets/TabTip_14h_31p.mp4)
 
 
