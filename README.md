@@ -16,7 +16,9 @@
 Sử dụng công cụ `sngrep` để bắt các luồng tin SIP REGISTER rác ở lớp mạng, đồng thời trích xuất Raw Log từ FreeSWITCH khi bị tấn công bằng Nmap.
 
 ![Mô phỏng tấn công bằng Nmap](_assets/Pasted%20image%2020260224161103.png)
+
 ![Phân tích gói tin ngập lụt bằng sngrep](_assets/Pasted%20image%2020260224171440.png)
+
 ![Raw Log của FreeSWITCH văng lỗi Auth Failure](_assets/Pasted%20image%2020260224161147.png)
 
 ### 1.2. Phẫu thuật Dữ liệu: Custom Decoder với PCRE2
@@ -27,6 +29,7 @@ Sử dụng công cụ `sngrep` để bắt các luồng tin SIP REGISTER rác �
 **Giải pháp:** Chuyển đổi Engine phân tích sang chuẩn `PCRE2` và sử dụng kỹ thuật Escaping `\` để bóc tách chính xác mục tiêu (`srcuser`) và nguồn tấn công (`srcip`).
 
 ![Cấu hình Custom Decoder với PCRE2](_assets/Pasted%20image%2020260224170704.png)
+
 ![Kiểm thử bóc tách dữ liệu mượt mà bằng công cụ wazuh-logtest](_assets/Pasted%20image%2020260224170825.png)
 
 ### 1.3. Khai báo Luật (Custom Rules) & MITRE ATT&CK
@@ -41,6 +44,7 @@ Khi Nmap nã >50.000 requests, hàng đợi (Event Queue) của Wazuh Agent bị
 
 **Hành động khắc phục:** 1. Tối ưu hóa Buffer trên Agent bằng cách nới lỏng giới hạn trong file `local_internal_options.conf`.
 ![Nới lỏng giới hạn Buffer của Agent](_assets/Pasted%20image%2020260224164210.png)
+
 2. Sử dụng tham số `--max-rate 50` trên Nmap để điều tiết băng thông mô phỏng tấn công.
 ![Điều tiết hỏa lực bằng max-rate](_assets/Pasted%20image%2020260224171447.png)
 
@@ -48,6 +52,7 @@ Khi Nmap nã >50.000 requests, hàng đợi (Event Queue) của Wazuh Agent bị
 Hệ thống Manager tiếp nhận mượt mà hàng ngàn sự kiện, kích hoạt thành công Cảnh báo Đỏ (Rule 100002) ứng với mã **MITRE T1110.001**, đồng thời gắp chính xác thông tin User bị tấn công.
 
 ![Biểu đồ nhận diện >2800 lượt dò quét SIP](_assets/Pasted%20image%2020260224171352.png)
+
 ![Chi tiết Rule 100001 và 100002 nảy liên tục với dữ liệu User/IP đầy đủ](_assets/Pasted%20image%2020260224171421.png)
 
 
@@ -66,9 +71,9 @@ Sử dụng script vòng lặp `for` trên PowerShell của Windows để nã h�
 
 Hệ thống ghi nhận và ánh xạ hoàn hảo vào Rule `5710` (Attempt to login using a non-existent user).
 ![Biểu đồ 72 hits từ Dashboard](_assets/image_433ddd.png)
+
 ![Chi tiết ánh xạ MITRE T1021.004 cho SSH](_assets/image_433b13.png)
 
----
 
 ## Appendix: Deploy & Trouble-shooting System (Layer 3/4)
 
@@ -88,6 +93,7 @@ Thực thi Installation Script (Quickstart) để cài đặt toàn bộ stack (
 
 *Lưu ý kiến trúc (Self-signed Certificate):* Ở môi trường Lab, Wazuh tự động sinh chứng chỉ SSL tự ký (Self-signed). Trình duyệt sẽ cảnh báo "Connection isn't private" là hành vi bình thường. Chấp nhận rủi ro để truy cập UI.
 ![Cảnh báo SSL tự ký trên Chrome](_assets/Pasted%20image%2020260224110836.png)
+
 ![Giao diện đăng nhập Wazuh Dashboard](_assets/Pasted%20image%2020260224110917.png)
 
 **4. Xác minh trạng thái Listening Port (Manager side):**
@@ -104,4 +110,5 @@ Sau khi sửa lỗi DNS, package được cài đặt. Khởi động dịch v�
 
 **Kết quả nền tảng:** Giao tiếp TLS giữa Agent và Manager thiết lập thành công. Agent hiển thị trạng thái `Active` với độ bao phủ `100.00%`, sẵn sàng cho bước Cấu hình Localfile.
 ![Trạng thái Agent Active trên Dashboard](_assets/Pasted%20image%2020260224112744.png)
+
 ![Chi tiết thông tin Agent đã enroll](_assets/Pasted%20image%2020260224115957.png)
