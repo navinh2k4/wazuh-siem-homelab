@@ -7,6 +7,8 @@
 * **Wazuh Manager (Server):** Ubuntu 24.04 (`192.168.15.125`)
 * **Wazuh Agent (Target):** Debian 12 chạy FusionPBX/FreeSWITCH (`192.168.15.225`)
 
+Link demo Wazuh detect Bruteforce SIP/VoIP: https://youtu.be/QOj0m5xKv0k
+Link demo Wazuh detect Bruteforce SSH: https://youtu.be/XM_Gu42Pb2s
 
 ## Phase 1: Giám sát An ninh Chuyên sâu - VoIP/SIP 
 
