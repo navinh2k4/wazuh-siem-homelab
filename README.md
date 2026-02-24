@@ -72,9 +72,9 @@ Sử dụng script vòng lặp `for` trên PowerShell của Windows để nã h�
 ![Mô phỏng SSH Brute-force bằng PowerShell](_assets/image_42b035.png)
 
 Hệ thống ghi nhận và ánh xạ hoàn hảo vào Rule `5710` (Attempt to login using a non-existent user).
-![Biểu đồ 72 hits từ Dashboard](_assets/image_433ddd.png)
+![Biểu đồ 72 hits từ Dashboard](_assets/Pasted%20image%2020260224131614.png)
 
-![Chi tiết ánh xạ MITRE T1021.004 cho SSH](_assets/image_433b13.png)
+![Chi tiết ánh xạ MITRE T1021.004 cho SSH](_assets/Pasted%20image%2020260224131632.png)
 
 
 ## Appendix: Deploy & Trouble-shooting System (Layer 3/4)
